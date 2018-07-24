@@ -1,30 +1,26 @@
 import React, { Component } from 'react';
 import { Table } from 'reactstrap';
-import uuid from 'uuid';
+import PropTypes from 'prop-types';
 import Trade from './Trade';
+import { connect } from 'react-redux';
+import { getOpenTrades } from '../actions/tradeActions';
 
+
+
+// Table of current live trades open with the bot
 class CurrentTrades extends Component {
     constructor(props) {
         super(props);
-        this.state = { 
-            openTrades: [
-                {id: '1', ticker: 'test'}
-            ]
-         };
     }
 
     componentWillMount() {
-        fetch('/api/buys/open')
-           .then(res => res.json())
-           .then(allOpentrades => this.setState({
-               openTrades: allOpentrades
-           }))
-           .catch(err => console.log(err));
+        this.props.getOpenTrades();
     }
 
     render() {
-        const { openTrades } = this.state;
-        console.log(openTrades)
+        //const { openTrades } = this.props.trade;
+        console.log(this.props)
+        const {openTrades } = this.props;
         return (
             <div>
                 <Table>
@@ -55,4 +51,14 @@ class CurrentTrades extends Component {
     }
 }
 
-export default CurrentTrades;
+CurrentTrades.propTypes = {
+    getOpenTrades: PropTypes.func.isRequired,
+    openTrades: PropTypes.array.isRequired
+}
+
+const mapStateToProps = (state) => ({
+    openTrades: state.trade.openTrades
+})
+
+
+export default connect(mapStateToProps, { getOpenTrades })(CurrentTrades);
