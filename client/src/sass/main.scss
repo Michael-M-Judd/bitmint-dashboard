@@ -1,0 +1,8 @@
+// Main scss file. TODO: configure webpack with sass loader (https://medium.com/@Connorelsea/using-sass-with-create-react-app-7125d6913760)
+
+// Base/Core Css
+@import './base/variables';
+@import './base/typography';
+
+// Components
+@import './components/app';
