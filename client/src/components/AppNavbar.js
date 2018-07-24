@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink, Container } from 'reactstrap';
+import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap';
 
 class AppNavbar extends Component {
     state = {
@@ -16,7 +16,6 @@ class AppNavbar extends Component {
         return (
             <div>
                 <Navbar expand="sm" className="mb-4">
-                    <Container>
                         <NavbarBrand href="/">Bitmint</NavbarBrand>
                         <NavbarToggler onClick={this.toggle} />
                         <Collapse isOpen={this.state.isOpen} navbar>
@@ -26,7 +25,6 @@ class AppNavbar extends Component {
                                 </NavItem>
                             </Nav>
                         </Collapse>
-                    </Container>
                 </Navbar>
             </div>
         );

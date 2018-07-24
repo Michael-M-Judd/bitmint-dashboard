@@ -18,9 +18,9 @@ class CurrentTrades extends Component {
     }
 
     render() {
-        //const { openTrades } = this.props.trade;
-        console.log(this.props)
+
         const {openTrades } = this.props;
+
         return (
             <div>
                 <Table>
@@ -34,7 +34,8 @@ class CurrentTrades extends Component {
                     </thead>
                     <tbody>
                         {openTrades.map((trade) => (
-                            <Trade 
+                            <Trade
+                                key={trade._id}
                                 ticker={trade.ticker}
                                 date={trade.date}
                                 tweet={trade.tweet}
