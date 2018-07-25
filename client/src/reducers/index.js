@@ -6,5 +6,5 @@ import { firebaseReducer } from 'react-redux-firebase'
 
 export default combineReducers({
     trade: tradeReducer,
-    firebase: firebaseReducer
+    firebase: firebaseReducer // Add firebase to reducers
 })

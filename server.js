@@ -7,6 +7,8 @@ const app = express();
 // routes
 const buys = require('./routes/api/buys');
 const bot = require('./routes/api/bot');
+const price = require('./routes/api/price');
+
 
 // Bodyparse Middleware
 app.use(bodyParser.json());
@@ -22,6 +24,7 @@ mongoose.connect(db)
 // Use Routes
 app.use('/api/buys', buys);
 app.use('/api/bot', bot);
+app.use('/api/price', price);
 
 const port = process.env.PORT || 5000;
 
