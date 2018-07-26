@@ -12,7 +12,7 @@ const { exec } = require('child_process');
  * @see Unit Test https://jsfiddle.net/Victornpb/5axuh96u/
  * @see http://stackoverflow.com/questions/4009756/how-to-count-string-occurrence-in-string/7924240#7924240
  */
-function occurrences(string, subString, allowOverlapping) {
+var occurrences = (string, subString, allowOverlapping) => {
 
     string += "";
     subString += "";
@@ -95,7 +95,7 @@ router.get('/stop', (req, res) => {
             })
         }
         else {
-            let msg = `Terminated ${occurences(stdout)} processes`
+            let msg = `Terminated ${occurrences(stdout)} processes`
             res.json({
                 success: true,
                 message: msg
