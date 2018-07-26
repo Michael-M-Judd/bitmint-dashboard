@@ -3,6 +3,7 @@ import AppNavbar from './components/AppNavbar';
 import Home from './pages/Home';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './App.css';
+import './css/main.css';
 
 import { Provider } from 'react-redux';
 import store from './store';
