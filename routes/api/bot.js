@@ -68,19 +68,33 @@ router.get('/status', (req, res) => {
 // @desc    Start the bot run command line
 // @access  Public... For now
 router.get('/start', (req, res) => {
-    exec('(nohup python3 /root/twitter_classifier/stream_tweets.py &> stream_tweets_output.out&) && (nohup python3 /root/twitter_classifier/sell_bot.py &> sell_bot_output.out&)', (err, stdout, stderr) => {
+
+    let errorMessage = ''
+    let status = true;
+
+    exec('nohup python3 /root/twitter_classifier/stream_tweets.py &> stream_tweets_output.out&', (err, stdout, stderr) => {
         if (err) { // TODO: try stderr here too
-            res.json({
-                success: false,
-                error: err
-            })
-        }
-        else {
-            res.json({
-                success: true
-            })
+            errorMessage = 'Tweet stream failed to start: ' + err;
+            status = false;
         }
     })
+    exec('nohup python3 /root/twitter_classifier/sell_bot.py &> sell_bot_output.out&', (err, stdout, stderr) => {
+        if (err) { 
+            errorMessage += '\n Sell bot failed to start: ' + err;
+        }
+    })
+
+    if (status) {
+        res.json({
+            success: true
+        })
+    }
+    else { // bot failed
+        res.json({
+            success: false,
+            error: errorMessage
+        })
+    }
 });
 
 // @route   GET api/bot/stop
