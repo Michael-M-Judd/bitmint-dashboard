@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import Trade from './Trade';
 import { connect } from 'react-redux';
 import { compose } from 'redux'
-import { getOpenTrades } from '../actions/tradeActions';
+import { getOpenTrades, getProfitLoss } from '../actions/tradeActions';
 import { firebaseConnect, isLoaded, isEmpty } from 'react-redux-firebase'
 
 
@@ -15,8 +15,7 @@ const CurrentTrades = ({firebase, openTrades }) => {
     //componentWillMount() {
         //this.props.getOpenTrades();
     //}
-    console.log(openTrades);
-    const date = new Date(0) ;
+
     const openTradeList = !isLoaded(openTrades)
     ? 'Loading'
     : isEmpty(openTrades)
@@ -54,8 +53,8 @@ const CurrentTrades = ({firebase, openTrades }) => {
 }
 
 CurrentTrades.propTypes = {
-    getOpenTrades: PropTypes.func.isRequired,
-    openTrades: PropTypes.array.isRequired
+    //getOpenTrades: PropTypes.func.isRequired,
+    openTrades: PropTypes.array
 }
 
 /*
@@ -72,6 +71,6 @@ export default compose(
     ]),
     connect((state) => ({
       openTrades: state.firebase.data.open,
-      // profile: state.firebase.profile // load profile
+      profitLosses: state.trade.profitLosses
     }))
   )(CurrentTrades)
