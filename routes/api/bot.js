@@ -72,13 +72,13 @@ router.get('/start', (req, res) => {
     let errorMessage = ''
     let status = true;
 
-    exec('nohup python3 /root/twitter_classifier/stream_tweets.py &> stream_tweets_output.out&', (err, stdout, stderr) => {
+    exec('nohup python3 /root/twitter_classifier/stream_tweets.py &', (err, stdout, stderr) => {
         if (err) { // TODO: try stderr here too
             errorMessage = 'Tweet stream failed to start: ' + err;
             status = false;
         }
     })
-    exec('nohup python3 /root/twitter_classifier/sell_bot.py &> sell_bot_output.out&', (err, stdout, stderr) => {
+    exec('nohup python3 /root/twitter_classifier/sell_bot.py &', (err, stdout, stderr) => {
         if (err) { 
             errorMessage += '\n Sell bot failed to start: ' + err;
         }
