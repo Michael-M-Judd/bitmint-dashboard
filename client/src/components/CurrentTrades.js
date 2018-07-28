@@ -15,7 +15,6 @@ const CurrentTrades = ({firebase, openTrades }) => {
     //componentWillMount() {
         //this.props.getOpenTrades();
     //}
-    console.log(openTrades);
     const openTradeList = !isLoaded(openTrades)
     ? 'Loading'
     : isEmpty(openTrades)
@@ -32,7 +31,7 @@ const CurrentTrades = ({firebase, openTrades }) => {
     ))
         return (
             <div>
-                <Table>
+                <Table id="current-trades" className="table-borderless app-card">
                     <thead>
                         <tr>
                             <th>Market</th>
@@ -69,10 +68,10 @@ const mapStateToProps = (state) => ({
 
 export default compose(
     firebaseConnect([
-      'open' // { path: '/todos' } // object notation
+      'open' //  firebase path = '/open' 
     ]),
     connect((state) => ({
-      openTrades: state.firebase.data.buys,
+      openTrades: state.firebase.data.open,
       profitLosses: state.trade.profitLosses
     }))
   )(CurrentTrades)

@@ -1,8 +1,9 @@
-import { GET_OPEN_TRADES, GET_PAST_SELLS, GET_PROFIT_LOSS } from '../actions/types';
+import { GET_OPEN_TRADES, GET_PAST_SELLS, GET_PROFIT_LOSS, SET_MARKET_VIEW } from '../actions/types';
 
 const initialState = {
     openTrades: [],
-    profitLosses: {}
+    profitLosses: {},
+    marketView: 'BTCUSD'
 }
 
 export default function(state = initialState, action) {
@@ -18,11 +19,20 @@ export default function(state = initialState, action) {
             let currentPrice = data.last; // we take current price as last price.
             let ticker = data.symbol;
             let profitLoss = currentPrice / action.buyPrice;
+
+            let objectToAdd = {}; // Can't seem to do syntax {ticker: profitLoss} because it thinks ticker is the key
+            objectToAdd[ticker] = profitLoss;
             return {
                 ...state,
-                profitLosses: {...state.profitLoss, ticker: profitLoss}
+                profitLosses: {...state.profitLosses, ...objectToAdd}
             }
-            
+        case SET_MARKET_VIEW:
+            let market = action.payload;
+            market = market.replace('/', '');
+            return {
+                ...state,
+                marketView: market
+            }
         default:
             return state;
     }

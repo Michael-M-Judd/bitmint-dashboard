@@ -1,4 +1,4 @@
-import { GET_OPEN_TRADES, GET_PAST_SELLS, GET_PROFIT_LOSS } from './types';
+import { GET_OPEN_TRADES, MARKET_SELL, GET_PROFIT_LOSS, SET_MARKET_VIEW } from './types';
 
 /**
  * Gets all open trades from the bot using the node server.. Might change to firebase
@@ -22,7 +22,7 @@ export const getOpenTrades = () => {
  */
 export const getProfitLoss = (market, buyPrice) => {
     return function(dispatch) {
-        fetch('/api/price')
+        fetch(`/api/price/${market}`)
             .then(res => res.json())
             .then(data =>
                 dispatch({
@@ -30,5 +30,19 @@ export const getProfitLoss = (market, buyPrice) => {
                     payload: data,
                     buyPrice: buyPrice
                 }))
+    }
+}
+
+/**
+ * Sets the current view for the trading chart (happens on market click)
+ * @param {String} market in form 'TICK/BTC'
+ * @returns dipatched action type SET_MARKET_VIEW payload = market
+ */
+export const setMarketView = market => {
+    return function(dispatch) {
+        dispatch({
+            type: SET_MARKET_VIEW,
+            payload: market
+        })
     }
 }

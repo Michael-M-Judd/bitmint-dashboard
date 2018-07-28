@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getProfitLoss } from '../actions/tradeActions';
-const ccxt = require('ccxt');
+import { getProfitLoss, setMarketView } from '../actions/tradeActions';
 
 
 class Trade extends Component {
@@ -9,16 +8,20 @@ class Trade extends Component {
         super(props);
     }
 
-    componentWillMount() {
+    componentDidMount() {
         if (this.props.ticker !== undefined && this.props.buyPrice !== undefined) {
-            this.props.getProfitLoss(this.props.ticker, this.props.buyPrice);
+            this.props.getProfitLoss(this.props.ticker.replace('/', '-'), this.props.buyPrice);
         }
+    }
+
+    setChart = () => {
+        this.props.setMarketView(this.props.ticker);
     }
 
     render() {
         return (
             <tr>
-                <th scope="row">{this.props.ticker}</th>
+                <th scope="row"><a href="#" onClick={ () => this.setChart()}>{this.props.ticker}</a></th>
                 <th>{this.props.date}</th>
                 <th>{this.props.tweet}</th>
                 <th>{this.props.profitLosses[this.props.ticker]}</th>
@@ -31,4 +34,4 @@ const mapStateToProps = (state) => ({
     profitLosses: state.trade.profitLosses
 })
 
-export default connect(mapStateToProps, { getProfitLoss })( Trade );
+export default connect(mapStateToProps, { getProfitLoss, setMarketView })( Trade );
