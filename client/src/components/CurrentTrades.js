@@ -15,7 +15,7 @@ const CurrentTrades = ({firebase, openTrades }) => {
     //componentWillMount() {
         //this.props.getOpenTrades();
     //}
-
+    console.log(openTrades);
     const openTradeList = !isLoaded(openTrades)
     ? 'Loading'
     : isEmpty(openTrades)
@@ -26,7 +26,9 @@ const CurrentTrades = ({firebase, openTrades }) => {
             ticker={openTrades[trade].ticker}
             date={Date(openTrades[trade].buy_time).split('GMT')[0]}
             tweet={openTrades[trade].tweet}
-            profitLoss={trade.isOpen}></Trade>
+            buyPrice={openTrades[trade].buy_price}
+            amount={openTrades[trade].amount}>
+        </Trade>
     ))
         return (
             <div>
@@ -70,7 +72,7 @@ export default compose(
       'open' // { path: '/todos' } // object notation
     ]),
     connect((state) => ({
-      openTrades: state.firebase.data.open,
+      openTrades: state.firebase.data.buys,
       profitLosses: state.trade.profitLosses
     }))
   )(CurrentTrades)
