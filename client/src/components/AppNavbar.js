@@ -35,11 +35,11 @@ class AppNavbar extends Component {
                         <Collapse isOpen={this.state.isOpen} navbar>
                             <Nav className="ml-auto" navbar>
                                 <NavItem>
-                                <Dropdown isOpen={this.state.botStatusDropdownOpen} toggle={this.toggleBotStatusDropdown} className='bg-transparent'>
-                                    <DropdownToggle caret>
+                                <Dropdown isOpen={this.state.botStatusDropdownOpen} toggle={this.toggleBotStatusDropdown}>
+                                    <DropdownToggle caret className='bg-transparent'>
                                         Bot Status: {status 
-                                        ? <span><span classname="status-icon bg-success img-circle">Online</span></span> 
-                                        : <span><span classname="status-icon bg-danger img-circle">Offline</span></span> }
+                                        ? <span><span className="status-icon bg-success img-circle"></span>Online</span> 
+                                        : <span><span className="status-icon bg-danger img-circle"></span>Offline</span> }
                                     </DropdownToggle>
                                     <DropdownMenu>
                                     <DropdownItem header>{status ? 'Online' : 'Offline'}</DropdownItem>
