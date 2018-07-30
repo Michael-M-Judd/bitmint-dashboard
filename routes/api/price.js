@@ -34,6 +34,7 @@ router.get('/:market', (req, res) => {
 // @desc    Sell at specified amount/price using ccxt or use current ask
 // @access  Public... For now
 router.post('/sell', (req, res) => {
+
     let market = req.body.market;
     let price = req.body.price;
     let amount = req.body.amount;
@@ -49,33 +50,52 @@ router.post('/sell', (req, res) => {
         })
     }
 
-    if (price == undefined) { // we sell at market price
-        // fetch from ccxt
-        bittrex.fetchTicker(market)
-            .then(data => {
-                bittrex.createLimitSellOrder(market, amount, data.ask)
-                    .then(resp => res.json({
+
+    (async () => {
+
+        if (price == undefined) { // we sell at market price
+    
+            try {
+    
+                const tickerData = await bittrex.fetchTicker(market); // get current pricing
+                try { // attempte limit sell order
+                    const response = await bittrex.createLimitSellOrder(market, amount, tickerData.ask);
+                    res.json({
                         success: true,
-                        message: resp
-                    }))
-                    .catch(err => res.json({ // TODO: why isn't this returning the actual error?
+                        message: response
+                    })
+                }
+                catch(err) {
+                    res.json({
                         success: false,
-                        error: err
-                   }))
-            })
-            .catch(err => res.status(404).json({
-                success: false, 
-                error: err
-            }));
-    }
-    else {    // has price     
-        bittrex.createLimitSellOrder(market, amount, price)
-            .then(resp => res.json({
-                success: true,
-                message: resp
-            }))
-            .catch(console.log(err))
-    }
+                        error: err.message
+                    })
+                }
+            }
+            catch (err) {
+                res.json({
+                    success: false,
+                    error: err.message
+                })
+            }
+    
+        }
+        else { // we have a defined price to sell at
+            try {
+                const response = await bittrex.createLimitSellOrder(market, amount, price);
+                res.json({
+                    success: true,
+                    message: response
+                })
+            }
+            catch(err) {
+                res.json({
+                    success: false,
+                    error: err
+                })
+            }
+        }
+    })();
 })
 
 
