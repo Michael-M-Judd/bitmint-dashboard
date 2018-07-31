@@ -25,6 +25,7 @@ class Trade extends Component {
                 <th>{this.props.date}</th>
                 <th>{this.props.tweet}</th>
                 <th>{this.props.profitLosses[this.props.ticker]}</th>
+                <th><a className="text-danger" href="">Sell</a></th>
             </tr>
         );
     }

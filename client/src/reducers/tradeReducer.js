@@ -18,7 +18,7 @@ export default function(state = initialState, action) {
             let data = action.payload; 
             let currentPrice = data.last; // we take current price as last price.
             let ticker = data.symbol;
-            let profitLoss = currentPrice / action.buyPrice;
+            let profitLoss = (currentPrice / action.buyPrice).toFixed(4);
 
             let objectToAdd = {}; // Can't seem to do syntax {ticker: profitLoss} because it thinks ticker is the key
             objectToAdd[ticker] = profitLoss;

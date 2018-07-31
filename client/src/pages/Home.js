@@ -4,6 +4,7 @@ import TradingViewWidget from 'react-tradingview-widget';
 import CurrentTrades from '../components/CurrentTrades';
 
 class Home extends Component {
+
     render () {
         return (
             <div className="container-fluid">

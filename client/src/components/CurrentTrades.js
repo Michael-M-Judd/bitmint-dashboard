@@ -31,13 +31,14 @@ const CurrentTrades = ({firebase, openTrades }) => {
     ))
         return (
             <div>
-                <Table id="current-trades" className="table-borderless app-card">
+                <Table id="current-trades" className="table-borderless table-striped app-card">
                     <thead>
                         <tr>
                             <th>Market</th>
                             <th>Buy Date</th>
                             <th>Tweet</th>
                             <th>Profit/Loss</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>

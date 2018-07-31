@@ -28,7 +28,8 @@ html, body {
   font-size: .9rem; }
 .table tbody th {
   font-size: .9rem;
-  font-weight: 400; }
+  font-weight: 400;
+  vertical-align: middle; }
 
 .app-card {
   background-color: #141E46;
