@@ -3,44 +3,46 @@ import { Table } from 'reactstrap';
 import PropTypes from 'prop-types';
 import Trade from './Trade';
 import { connect } from 'react-redux';
-import { getOpenTrades } from '../actions/tradeActions';
+import { compose } from 'redux'
+import { getOpenTrades, getProfitLoss } from '../actions/tradeActions';
+import { firebaseConnect, isLoaded, isEmpty } from 'react-redux-firebase'
 
 
 
 // Table of current live trades open with the bot
-class CurrentTrades extends Component {
-    constructor(props) {
-        super(props);
-    }
+const CurrentTrades = ({firebase, openTrades }) => {
 
-    componentWillMount() {
-        this.props.getOpenTrades();
-    }
-
-    render() {
-
-        const {openTrades } = this.props;
-
+    //componentWillMount() {
+        //this.props.getOpenTrades();
+    //}
+    const openTradeList = !isLoaded(openTrades)
+    ? 'Loading'
+    : isEmpty(openTrades)
+      ? 'No active trades.'
+      : Object.keys(openTrades).map((trade) => (
+        <Trade
+            key={trade}
+            ticker={openTrades[trade].ticker}
+            date={openTrades[trade].buy_time}
+            tweet={openTrades[trade].tweet}
+            buyPrice={openTrades[trade].buy_price}
+            amount={openTrades[trade].amount}>
+        </Trade>
+    ))
         return (
             <div>
-                <Table>
+                <Table id="current-trades" className="table-borderless table-striped app-card">
                     <thead>
                         <tr>
                             <th>Market</th>
                             <th>Buy Date</th>
                             <th>Tweet</th>
                             <th>Profit/Loss</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {openTrades.map((trade) => (
-                            <Trade
-                                key={trade._id}
-                                ticker={trade.ticker}
-                                date={trade.date}
-                                tweet={trade.tweet}
-                                profitLoss={trade.isOpen}></Trade>
-                        ))}
+                        {openTradeList}
                     </tbody>
                    
                 </Table>
@@ -49,17 +51,28 @@ class CurrentTrades extends Component {
                 
             </div>
         );
-    }
+    
 }
 
 CurrentTrades.propTypes = {
-    getOpenTrades: PropTypes.func.isRequired,
-    openTrades: PropTypes.array.isRequired
+    //getOpenTrades: PropTypes.func.isRequired,
+    openTrades: PropTypes.array
 }
 
+/*
 const mapStateToProps = (state) => ({
     openTrades: state.trade.openTrades
 })
+*/
 
+//export default connect(mapStateToProps, { getOpenTrades })(CurrentTrades);
 
-export default connect(mapStateToProps, { getOpenTrades })(CurrentTrades);
+export default compose(
+    firebaseConnect([
+      'open' //  firebase path = '/open' 
+    ]),
+    connect((state) => ({
+      openTrades: state.firebase.data.open,
+      profitLosses: state.trade.profitLosses
+    }))
+  )(CurrentTrades)

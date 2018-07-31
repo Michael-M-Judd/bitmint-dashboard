@@ -1,0 +1,41 @@
+html, body {
+  font-family: 'Source Sans Pro', sans-serif; }
+
+h1, h2 {
+  font-weight: 700; }
+
+a {
+  color: #3AEC99;
+  font-weight: 600; }
+
+html, body {
+  background: #0B1231;
+  color: white; }
+
+.navbar .status-icon {
+  display: inline-block;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  margin-left: 5px;
+  margin-right: 2px; }
+.navbar .navbar-brand {
+  color: white;
+  font-weight: 700; }
+
+.table thead th {
+  text-transform: uppercase;
+  font-size: .9rem; }
+.table tbody th {
+  font-size: .9rem;
+  font-weight: 400;
+  vertical-align: middle; }
+
+.app-card {
+  background-color: #141E46;
+  -webkit-box-shadow: 0px 3px 8px -1px rgba(17, 17, 22, 0.3);
+  -moz-box-shadow: 0px 3px 8px -1px rgba(17, 17, 22, 0.3);
+  box-shadow: 0px 3px 8px -1px rgba(17, 17, 22, 0.3);
+  border-radius: 10px; }
+
+/*# sourceMappingURL=main.css.map */

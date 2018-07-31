@@ -16,7 +16,7 @@ const rrfConfig = {
     userProfile: 'users',
 }
 
-  // Initialize firebase instance
+// Initialize firebase instance
 firebase.initializeApp(firebaseConfig);
 
 // Add reactReduxFirebase enhancer when making store creator
