@@ -23,7 +23,7 @@ const CurrentTrades = ({firebase, openTrades }) => {
         <Trade
             key={trade}
             ticker={openTrades[trade].ticker}
-            date={Date(openTrades[trade].buy_time).split('GMT')[0]}
+            date={openTrades[trade].buy_time}
             tweet={openTrades[trade].tweet}
             buyPrice={openTrades[trade].buy_price}
             amount={openTrades[trade].amount}>

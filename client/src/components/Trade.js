@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getProfitLoss, setMarketView } from '../actions/tradeActions';
+import { getProfitLoss, setMarketView, forceSell } from '../actions/tradeActions';
 
 
 class Trade extends Component {
@@ -22,10 +22,13 @@ class Trade extends Component {
         return (
             <tr>
                 <th scope="row"><a href="#" onClick={ () => this.setChart()}>{this.props.ticker}</a></th>
-                <th>{this.props.date}</th>
+                <th>{new Date(this.props.date * 1000).toString().split('GMT')[0]}</th>
                 <th>{this.props.tweet}</th>
                 <th>{this.props.profitLosses[this.props.ticker]}</th>
-                <th><a className="text-danger" href="">Sell</a></th>
+                <th><a 
+                    className="text-danger"
+                    href=""
+                    onClick={ () => this.props.forceSell(this.props.ticker, this.props.amount, undefined) }>Sell</a></th>
             </tr>
         );
     }

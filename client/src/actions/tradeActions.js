@@ -1,4 +1,4 @@
-import { GET_OPEN_TRADES, MARKET_SELL, GET_PROFIT_LOSS, SET_MARKET_VIEW } from './types';
+import { GET_OPEN_TRADES, GET_PROFIT_LOSS, SET_MARKET_VIEW, FORCE_SELL_TRADE } from './types';
 
 /**
  * Gets all open trades from the bot using the node server.. Might change to firebase
@@ -44,5 +44,28 @@ export const setMarketView = market => {
             type: SET_MARKET_VIEW,
             payload: market
         })
+    }
+}
+
+/**
+ * Force a sell on a specific ticker, either at market price or a specific quantity
+ * @param {String} market in form 'TICK/BTC'
+ * @param {Number} amount as the amount to sell. Currently default as whole amount
+ * @param {Number} price to sell at. if none sent it will sell at market price
+ */
+export const forceSell = (market, amount, price) => {
+    return function(dispatch) {
+        fetch(`/api/price/sell`, {
+            method: 'POST',
+            body: JSON.stringify({ market, amount, price }),
+            headers:{
+              'Content-Type': 'application/json'
+            }
+        }).then(res => res.json())
+        .then(data =>
+            dispatch({
+                type: FORCE_SELL_TRADE,
+                payload: data
+            }))
     }
 }

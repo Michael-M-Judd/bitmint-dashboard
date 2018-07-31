@@ -1,4 +1,4 @@
-import { GET_OPEN_TRADES, GET_PAST_SELLS, GET_PROFIT_LOSS, SET_MARKET_VIEW } from '../actions/types';
+import { GET_OPEN_TRADES, GET_PAST_SELLS, GET_PROFIT_LOSS, SET_MARKET_VIEW, FORCE_SELL_TRADE } from '../actions/types';
 
 const initialState = {
     openTrades: [],
@@ -33,6 +33,19 @@ export default function(state = initialState, action) {
                 ...state,
                 marketView: market
             }
+        case FORCE_SELL_TRADE:
+            let successStatus = action.payload.success;
+            
+            if (successStatus) {
+                //TODO: Logic for removing from firebase here 
+
+                // Add notification
+            }
+            else {
+                // Add notification that it wasn't successful
+                let err = action.payload.error;
+            }
+
         default:
             return state;
     }
