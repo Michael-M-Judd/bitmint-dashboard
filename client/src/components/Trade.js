@@ -27,8 +27,8 @@ class Trade extends Component {
                 <th>{this.props.profitLosses[this.props.ticker]}</th>
                 <th><a 
                     className="text-danger"
-                    href=""
-                    onClick={ () => this.props.forceSell(this.props.ticker, this.props.amount, undefined) }>Sell</a></th>
+                    href="#"
+                    onClick={ () => this.props.forceSell(this.props.ticker, this.props.amount, undefined, this.props.buyPrice) }>Sell</a></th>
             </tr>
         );
     }
@@ -38,4 +38,4 @@ const mapStateToProps = (state) => ({
     profitLosses: state.trade.profitLosses
 })
 
-export default connect(mapStateToProps, { getProfitLoss, setMarketView })( Trade );
+export default connect(mapStateToProps, { getProfitLoss, setMarketView, forceSell })( Trade );

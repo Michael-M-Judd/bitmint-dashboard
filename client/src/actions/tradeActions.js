@@ -53,11 +53,11 @@ export const setMarketView = market => {
  * @param {Number} amount as the amount to sell. Currently default as whole amount
  * @param {Number} price to sell at. if none sent it will sell at market price
  */
-export const forceSell = (market, amount, price) => {
+export const forceSell = (market, amount, price, buyPrice) => {
     return function(dispatch) {
         fetch(`/api/price/sell`, {
             method: 'POST',
-            body: JSON.stringify({ market, amount, price }),
+            body: JSON.stringify({ market, amount, price, buyPrice }),
             headers:{
               'Content-Type': 'application/json'
             }

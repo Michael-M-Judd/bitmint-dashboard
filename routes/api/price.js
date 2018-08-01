@@ -2,6 +2,61 @@ const express = require('express');
 const router = express.Router();
 const ccxt = require('ccxt');
 const keys = require('../../config/keys');
+var firebase = require('firebase/app');
+require('firebase/auth');
+require('firebase/database');
+
+// Initialize Firebase
+const firebaseConfig = {
+    apiKey: keys.firebaseApiKey,
+    authDomain: keys.firebaseAuthDomain,
+    databaseURL: keys.firebaseDbUrl,
+    projectId: keys.firebaseId,
+    storageBucket: keys.firebaseBucket,
+    messagingSenderId: keys.firebaseSenderId
+}
+
+firebase.initializeApp(firebaseConfig);
+var firebaseDb = firebase.database();
+var openTrades = firebaseDb.ref('open');
+
+/**
+ * Removes trade from open and sets sell data on firebase. 
+ * TODO: Move the sell data to mongoDB instead
+ * @param {String} market form of 'ETH/BTC'
+ * @param {Number} profitLoss ratio of profitloss 
+ * @param {String} sellTime in UTC seconds 
+ */
+function sellFirebase(market, profitLoss, sellTime) {
+
+    // Get a key for a new Sell.
+    var newSellKey =  firebaseDb.ref().child('sells').push().key;
+    // get openTrades and iterate to find the market to sell
+    openTrades.once("value") 
+    .then(data => {
+        data.forEach(trade => {
+            let ticker = trade.val()['ticker'];
+            if (ticker == market) {
+                try {
+                    openTrades.child(trade.key).on('value', tradeData => {
+                        firebaseDb.ref(`sells/${newSellKey}`).set({
+                            "buy_id": trade.key,
+                            "loss": profitLoss,
+                            "ticker": market,
+                            "sell_time": sellTime
+                        })
+                    })
+                    openTrades.child(trade.key).remove()
+                }
+                catch (err) {
+                    console.log('Error adding sell to firebase: ' + err);
+                }
+            }
+        })
+    })
+}
+         
+
 
 const bittrex = new ccxt.bittrex({
     apiKey: keys.bittrexApiKey,
@@ -38,6 +93,8 @@ router.post('/sell', (req, res) => {
     let market = req.body.market;
     let price = req.body.price;
     let amount = req.body.amount;
+    let buyPrice = req.body.buyPrice;
+
     if (market == undefined) {
         res.json({
             response: 'error',
@@ -60,6 +117,10 @@ router.post('/sell', (req, res) => {
                 const tickerData = await bittrex.fetchTicker(market); // get current pricing
                 try { // attempte limit sell order
                     const response = await bittrex.createLimitSellOrder(market, amount, tickerData.ask);
+                    
+                    var profitLoss = tickerData.ask / buyPrice;
+                    sellFirebase(market, profitLoss, (new Date).getTime());
+
                     res.json({
                         success: true,
                         message: response
