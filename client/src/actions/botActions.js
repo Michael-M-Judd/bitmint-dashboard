@@ -1,11 +1,13 @@
 import { GET_BOT_STATUS, TURN_BOT_OFF, TURN_BOT_ON } from './types';
+import { apiUrl } from '../constants';
+console.log('API URL: ',apiUrl);
 
 /**
  * Sends request to turn the bot ON from command line
  */
 export const turnBotOn = () => {
     return function(dispatch) {
-        fetch('/api/bot/start')
+        fetch(`${apiUrl}/bot/start`)
             .then(res => res.json())
             .then(data =>
                 dispatch({
@@ -20,7 +22,7 @@ export const turnBotOn = () => {
  */
 export const turnBotOff = () => {
     return function(dispatch) {
-        fetch('/api/bot/stop')
+        fetch(`${apiUrl}/bot/stop`)
             .then(res => res.json())
             .then(data =>
                 dispatch({
@@ -35,7 +37,7 @@ export const turnBotOff = () => {
  */
 export const getBotStatus = () => {
     return function(dispatch) {
-        fetch('/api/bot/status')
+        fetch(`${apiUrl}/bot/status`)
             .then(res => res.json())
             .then(data =>
                 dispatch({

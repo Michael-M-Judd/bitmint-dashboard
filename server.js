@@ -27,6 +27,7 @@ app.use('/api/bot', bot);
 app.use('/api/price', price);
 app.use('/api/coinMeta', coinMeta);
 
+// Server assets in production
 const port = process.env.PORT || 5000;
 
 app.listen(port, () => console.log`Server started on port: ${port}`);

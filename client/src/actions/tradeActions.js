@@ -1,11 +1,12 @@
 import { GET_OPEN_TRADES, GET_PROFIT_LOSS, SET_MARKET_VIEW, FORCE_SELL_TRADE } from './types';
+import { apiUrl } from '../constants';
 
 /**
  * Gets all open trades from the bot using the node server.. Might change to firebase
  */
 export const getOpenTrades = () => {
     return function(dispatch) {
-        fetch('/api/buys/open')
+        fetch(`${apiUrl}/buys/open`)
             .then(res => res.json())
             .then(data =>
                 dispatch({
@@ -22,7 +23,7 @@ export const getOpenTrades = () => {
  */
 export const getProfitLoss = (market, buyPrice) => {
     return function(dispatch) {
-        fetch(`/api/price/${market}`)
+        fetch(`${apiUrl}/price/${market}`)
             .then(res => res.json())
             .then(data =>
                 dispatch({
@@ -55,7 +56,7 @@ export const setMarketView = market => {
  */
 export const forceSell = (market, amount, price, buyPrice) => {
     return function(dispatch) {
-        fetch(`/api/price/sell`, {
+        fetch(`${apiUrl}/price/sell`, {
             method: 'POST',
             body: JSON.stringify({ market, amount, price, buyPrice }),
             headers:{

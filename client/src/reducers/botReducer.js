@@ -9,7 +9,7 @@ const initialState = {
 export default function(state = initialState, action) {
     switch(action.type) {
         case GET_BOT_STATUS:
-            if (action.payload.success == true) {
+            if (action.payload.success === true) {
                 
                 let botStatus = action.payload.status;
                 return {
@@ -21,7 +21,7 @@ export default function(state = initialState, action) {
                 return state;
             }
         case TURN_BOT_OFF:
-            if (action.payload.success == true) {
+            if (action.payload.success === true) {
                 return {
                     ...state,
                     status: false
@@ -31,7 +31,7 @@ export default function(state = initialState, action) {
                 return state;
             }
         case TURN_BOT_ON:
-            if (action.payload.success == true) {
+            if (action.payload.success === true) {
                 return {
                     ...state,
                     status: true
