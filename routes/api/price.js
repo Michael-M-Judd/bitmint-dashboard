@@ -10,13 +10,13 @@ require('firebase/database');
 const firebaseConfig = {
     apiKey: keys.firebaseApiKey,
     authDomain: keys.firebaseAuthDomain,
-    databaseURL: keys.firebaseDbUrl,
+    databaseURL: keys.firebaseUrl,
     projectId: keys.firebaseId,
     storageBucket: keys.firebaseBucket,
     messagingSenderId: keys.firebaseSenderId
 }
-
 firebase.initializeApp(firebaseConfig);
+
 var firebaseDb = firebase.database();
 var openTrades = firebaseDb.ref('open');
 
