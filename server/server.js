@@ -19,7 +19,8 @@ app.use(function(req, res, next) {
     "http://localhost:5000",
     "http://144.202.56.250",
     "http://144.202.56.250:3000",
-    "http://144.202.56.250:5000"
+    "http://144.202.56.250:5000",
+    "https://bitmint-client.netlify.com"
   ];
   const origin = req.headers.origin;
   if (allowedOrigins.indexOf(origin) > -1) {
@@ -35,7 +36,6 @@ app.use(function(req, res, next) {
 
 // Bodyparse Middleware
 app.use(bodyParser.json());
-
 
 // Connect to Mongo
 mongoose
