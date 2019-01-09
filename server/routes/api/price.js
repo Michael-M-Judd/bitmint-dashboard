@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const ccxt = require('ccxt');
-const keys = require('../../config/keys');
+const keys = require('../../../config/keys');
 var firebase = require('firebase/app');
+const { exchange } = require('../../exchange');
 require('firebase/auth');
 require('firebase/database');
 
@@ -57,14 +58,8 @@ function sellFirebase(market, profitLoss, sellTime) {
 }
          
 
-
-const bittrex = new ccxt.bittrex({
-    apiKey: keys.bittrexApiKey,
-    secret: keys.bittrexSecret
-});
-
 // @route   GET api/price/{market}
-// @desc    Get pricing data for ticker using ccxt lib. Currently just bittrex
+// @desc    Get pricing data for ticker using ccxt lib. Currently just binance
 // @access  Public... For now
 router.get('/:market', (req, res) => {
     let market = req.params.market;
@@ -75,7 +70,7 @@ router.get('/:market', (req, res) => {
         market = market.replace('-', '/').toUpperCase(); // TODO: use body instead of param
         
         // fetch from ccxt
-        bittrex.fetchTicker(market)
+        binance.fetchTicker(market)
             .then(data => res.send(data))
             .catch(err => res.status(404).json({
                 success: false, 
@@ -114,9 +109,9 @@ router.post('/sell', (req, res) => {
     
             try {
     
-                const tickerData = await bittrex.fetchTicker(market); // get current pricing
+                const tickerData = await binance.fetchTicker(market); // get current pricing
                 try { // attempte limit sell order
-                    const response = await bittrex.createLimitSellOrder(market, amount, tickerData.ask);
+                    const response = await binance.createLimitSellOrder(market, amount, tickerData.ask);
                     
                     var profitLoss = tickerData.ask / buyPrice;
                     sellFirebase(market, profitLoss, (new Date).getTime());
@@ -143,7 +138,7 @@ router.post('/sell', (req, res) => {
         }
         else { // we have a defined price to sell at
             try {
-                const response = await bittrex.createLimitSellOrder(market, amount, price);
+                const response = await binance.createLimitSellOrder(market, amount, price);
                 res.json({
                     success: true,
                     message: response

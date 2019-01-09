@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const fetch = require('node-fetch');
-const authToken = require('../../config/keys').cryptoPanicAuthToken;
+const authToken = require('../../../config/keys').cryptoPanicAuthToken;
 
 
 // TODO: finish this

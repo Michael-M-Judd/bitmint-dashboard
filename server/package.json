@@ -9,7 +9,7 @@
     "start": "node server.js",
     "server": "nodemon server.js",
     "client": "npm start --prefix client",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "dev": "concurrently \"npm run server\" \"../npm run client\""
   },
   "keywords": [
     "bitmint"
@@ -24,6 +24,7 @@
     "firebase": "^5.3.0",
     "mongoose": "^5.2.4",
     "node-fetch": "^2.2.0",
+    "pm2": "^3.2.4",
     "react-redux-firebase": "^2.1.6"
   },
   "devDependencies": {
