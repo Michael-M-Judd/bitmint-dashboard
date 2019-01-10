@@ -4,12 +4,13 @@
   "description": "App dashboard to control the bitmint bot",
   "main": "server.js",
   "scripts": {
-    "client-install": "npm install --prefix client",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js",
-    "server": "nodemon server.js",
-    "client": "npm start --prefix client",
-    "dev": "concurrently \"npm run server\" \"../npm run client\""
+    "start": "pm2 ./src/server.js",
+    "dev": "nodemon ./src/server.js",
+    "dev:build": "SSH_PRIVATE_KEY=\"${SSH_PRIVATE_KEY:-$(cat ~/.ssh/id_rsa)}\" NPMRC=\"${NPMRC:-$(cat ~/.npmrc)}\" docker-compose build",
+    "dev:up": "docker-compose up -d",
+    "dev:down": "docker-compose down",
+    "dev:logs": "docker-compose logs -f api"
   },
   "keywords": [
     "bitmint"
