@@ -33,11 +33,10 @@ var occurrences = (string, subString, allowOverlapping) => {
 
 const checkStatus = (res, err, stdout, stderr) => {
   if (err) {
-    res.json({
-      success: false,
-      error: err
-    });
+    return [err.null];
   } else {
+    console.log(stdout);
+    console.log(stderr);
     let botStatus = occurrences(stdout, "python");
 
     if (botStatus > 1) {
@@ -45,12 +44,14 @@ const checkStatus = (res, err, stdout, stderr) => {
     } else {
       botStatus = false;
     }
-
-    res.json({
-      success: true,
-      status: botStatus,
-      error: stderr
-    });
+    return [
+      null,
+      {
+        success: true,
+        status: botStatus,
+        error: stderr
+      }
+    ];
   }
 };
 
@@ -58,12 +59,21 @@ const checkStatus = (res, err, stdout, stderr) => {
 // @desc    Get the bots status
 // @access  Public... For now
 router.get("/status", (req, res) => {
-  exec("pm2 pid stream-tweets", (err, stdout, stderr) =>
-    checkStatus(res, err, stdout, stderr)
-  );
-  exec("pm2 pid sell-bot", (err, stdout, stderr) =>
-    checkStatus(res, err, stdout, stderr)
-  );
+  let error = null;
+  let botStatus = {};
+  exec("pm2 pid stream-tweets", (err, stdout, stderr) => {
+    [error, botStatus] = checkStatus(res, err, stdout, stderr);
+    console.log(botStatus);
+  });
+  exec("pm2 pid sell-bot", (err, stdout, stderr) => {
+    [error, botStatus] = checkStatus(res, err, stdout, stderr);
+  });
+  if (error) {
+    return res.json({ success: false, error });
+  }
+  return res.json({
+    success: true
+  });
 });
 
 // @route   GET api/bot/start

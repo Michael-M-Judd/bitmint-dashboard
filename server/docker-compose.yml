@@ -1,23 +1,17 @@
 version: "3.5"
 
 services:
-  api:
+  bitmint-api:
     build:
       context: .
       args:
-        - SSH_PRIVATE_KEY
-        - NPMRC
         - NODE_ENV=development
-    command: ["npm", "dev"]
+    command: ["npm", "start"]
     environment:
       NODE_ENV: development
+      PORT: 9001
     volumes:
       - ./src:/usr/src/app/src
-      - ./bin:/usr/src/app/bin
-      - ./credentials:/usr/src/app/credentials
-      - ./config:/usr/src/app/config
-      - ./app.js:/usr/src/app/app.js
       - ./package.json:/usr/src/app/package.json
-      - ./knexfile.js:/usr/src/app/knexfile.js
     ports:
-      - 9001:8080
+      - "9001:9001"

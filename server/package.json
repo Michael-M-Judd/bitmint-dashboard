@@ -5,12 +5,11 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "pm2 ./src/server.js",
+    "start": "pm2 start ./src/server.js --no-daemon --watch",
     "dev": "nodemon ./src/server.js",
-    "dev:build": "SSH_PRIVATE_KEY=\"${SSH_PRIVATE_KEY:-$(cat ~/.ssh/id_rsa)}\" NPMRC=\"${NPMRC:-$(cat ~/.npmrc)}\" docker-compose build",
-    "dev:up": "docker-compose up -d",
-    "dev:down": "docker-compose down",
-    "dev:logs": "docker-compose logs -f api"
+    "dev:build": "docker build -t bitmint-express .",
+    "dev:run": "docker run -p 9000:8080 -d --name bitmint-express bitmint-express",
+    "dev:logs": "docker logs -f bitmint-express"
   },
   "keywords": [
     "bitmint"
