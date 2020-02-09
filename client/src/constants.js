@@ -1,11 +1,11 @@
 const getApiUrl = () => {
-    let apiUrl = 'http://144.202.56.250:5000/api';
+  let apiUrl = "/api";
 
-    if (process.env.NODE_ENV !== 'production') {
-        return 'http://localhost:5000/api';
-    }
+  if (process.env.NODE_ENV !== "production") {
+    return "http://localhost:9001/api";
+  }
 
-    return apiUrl;
-}
+  return apiUrl;
+};
 
 export const apiUrl = getApiUrl();

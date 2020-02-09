@@ -1,0 +1,17 @@
+version: "3.5"
+
+services:
+  bitmint-api:
+    build:
+      context: .
+      args:
+        - NODE_ENV=development
+    command: ["npm", "start"]
+    environment:
+      NODE_ENV: development
+      PORT: 9001
+    volumes:
+      - ./src:/usr/src/app/src
+      - ./package.json:/usr/src/app/package.json
+    ports:
+      - "9001:9001"

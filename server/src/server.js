@@ -1,6 +1,8 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
+// DB Config
+const db = require("../config/keys").mongoURI;
 
 const app = express();
 
@@ -17,7 +19,8 @@ app.use(function(req, res, next) {
     "http://localhost:5000",
     "http://144.202.56.250",
     "http://144.202.56.250:3000",
-    "http://144.202.56.250:5000"
+    "http://144.202.56.250:5000",
+    "https://bitmint-client.netlify.com"
   ];
   const origin = req.headers.origin;
   if (allowedOrigins.indexOf(origin) > -1) {
@@ -33,9 +36,6 @@ app.use(function(req, res, next) {
 
 // Bodyparse Middleware
 app.use(bodyParser.json());
-
-// DB Config
-const db = require("./config/keys").mongoURI;
 
 // Connect to Mongo
 mongoose

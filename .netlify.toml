@@ -1,0 +1,13 @@
+[Settings]
+  ID = "e9683e17-5613-44e8-88b0-d5edd0cd959a"
+
+[[redirects]]
+  from = "/api/*"
+  to = "http://144.202.56.250:5000/api/:splat"
+  status = 200
+
+# The following redirect is intended for use with most SPA's that handles routing internally.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
